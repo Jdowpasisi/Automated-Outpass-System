@@ -7,12 +7,22 @@
 </head>
 <body>
     <h1>data as rows in database</h1>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
     <table border = "1">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
                 <th>Mobile number</th>
+                <th>Email</th>
                 <th>Hostel Name</th>
                 <th>Hostel Number</th>
                 <th>Date</th>
@@ -31,6 +41,7 @@
                 <td>{{ outpass.id}}</td>
                 <td>{{ outpass.name }}</td>
                 <td>{{ outpass.mobile }}</td>
+                <td>{{ outpass.email_add }}</td>
                 <td>{{ outpass.hostel_name }}</td>
                 <td>{{ outpass.hostel_number }}</td>
                 <td>{{ outpass.date }}</td>
@@ -41,6 +52,22 @@
                 <td>{{ outpass.parent_mobile}}</td>
                 <td>{{ outpass.program }}</td>
                 <td>{{ outpass.reason }}</td>
+                <td>
+                    {% if outpass.status == 'pending' %}
+                    <form action="{{ url_for('approved_mail', id=outpass.id) }}" method = "POST">
+                        <button type = "submit">Approve</button>
+                    </form>
+                    <form action="{{ url_for('rejected_mail', id=outpass.id) }}" method = "POST">
+                        <button type="submit">Reject</button>
+                    </form>
+                    {% else %}
+                    <span>Action done</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td>No application yet.</td>
             </tr>
             {% endfor %}
         </tbody>
