@@ -175,7 +175,14 @@ def send_mail(student_email, student_name):
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return render_template("error_404.html"), 404                 
+    return render_template("error_404.html"), 404  
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    flash("logged-out", category="danger")
+    return redirect(url_for("home"))               
 
 @app.route("/about")
 def about():

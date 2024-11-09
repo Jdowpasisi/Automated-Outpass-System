@@ -14,13 +14,18 @@
              <a href="/signup" class = "btn form-control btn-success">Sign-up</a>
              <a href="/form" class = "btn form-control btn-success">Outpass</a>
              <a href="/about" class = "btn form-control btn-success">About</a>
+             <a href="{{ url_for('logout') }}">Logout</a>
 
-             {% if current_user.is_authenticated %}
-             <p>you logged-in as {{ current_user.username }}</p>
-             {% endif %}
-        </ul>
-        
-    </div>
+            </ul>
+
+        </div>
+        <footer>
+            {% if current_user.is_authenticated %}
+            <p>you logged-in as {{ current_user.username }}</p>
+            {% endif %}
+
+        </footer>
+    
     
 </body>
 </html>
