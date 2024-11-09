@@ -15,9 +15,9 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USERNAME'] = 'email address same as below'
-app.config['MAIL_PASSWORD'] = '2 steps verification key not the gmail password'
-app.config['MAIL_DEFAULT_SENDER'] = 'email address'
+app.config['MAIL_USERNAME'] = 'email same as below'
+app.config['MAIL_PASSWORD'] = '2 factor authentication key not gmail password'
+app.config['MAIL_DEFAULT_SENDER'] = 'email'
 mail = Mail(app)
 
 login_manager = flask_login.LoginManager()
@@ -55,7 +55,7 @@ class admnuser(UserMixin, db.Model):
     
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("index.html", username = current_user.username if current_user.is_authenticated else None)
 
 @app.route("/login", methods = ["GET", "POST"])
 def login():
@@ -171,7 +171,11 @@ def send_mail(student_email, student_name):
         mail.send(msg)
         print(f"mail sent to {student_email}")
     except Exception as e:
-        print(f"fail to send email {str(e)}")         
+        print(f"fail to send email {str(e)}")
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template("error_404.html"), 404                 
 
 @app.route("/about")
 def about():
