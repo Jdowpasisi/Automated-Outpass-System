@@ -1,9 +1,7 @@
 from flask import Flask, redirect, url_for, render_template, logging, request, flash, session
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, logout_user, login_required, login_user, current_user
 from flask_mail import Mail, Message  
 import sqlite3
-import flask_login
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -20,11 +18,7 @@ app.config['MAIL_PASSWORD'] = '2 factor authentication key not gmail password'
 app.config['MAIL_DEFAULT_SENDER'] = 'email'
 mail = Mail(app)
 
-login_manager = flask_login.LoginManager()
-login_manager.init_app(app)
-
-
-class user(UserMixin, db.Model):
+class user(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(40))
     email = db.Column(db.String(45))
@@ -47,7 +41,7 @@ class outpass(db.Model):
     reason = db.Column(db.String(1000))
     status = db.Column(db.String(20), default = 'pending')
 
-class admnuser(UserMixin, db.Model):
+class admnuser(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     admin_name = db.Column(db.String(30), unique = True, nullable = False)
     admin_email = db.Column(db.String(50), unique = True, nullable = False)
@@ -55,7 +49,7 @@ class admnuser(UserMixin, db.Model):
     
 @app.route("/")
 def home():
-    return render_template("index.html", username = current_user.username if current_user.is_authenticated else None)
+    return render_template("index.html", username=session.get('user_name') if 'user_name' in session else None)
 
 @app.route("/login", methods = ["GET", "POST"])
 def login():
@@ -63,12 +57,12 @@ def login():
         usrname = request.form["usrname"]
         pssword = request.form["pssword"]
 
-        login = user.query.filter_by(username = usrname, password = pssword).first()
-        if login is not None:
+        login_instance = user.query.filter_by(username = usrname, password = pssword).first()
+        if login_instance:
             flash("logged-in sucsess", category = "success")
-            login_user(login)
+            session['user_logged_in'] = True
+            session['user_name'] = login_instance.username
             return redirect(url_for("home"))
-    
     return render_template("login.html")
 
 @app.route("/signup", methods = ["GET", "POST"])
@@ -87,6 +81,8 @@ def signup():
 
 @app.route("/adminpanel")
 def admin():
+    if not session.get('admin_logged_in'):
+        return redirect(url_for("home"))
     users = outpass.query.all()
     return render_template("adminpanel.html", users = users)
 
@@ -98,7 +94,7 @@ def adminsignup():
         psskey = request.form["psskey"]
 
         adminsignup = admnuser(admin_name = admname, admin_email = emailaddrs, passkey = psskey)
-        db.session.add(adminsignup)
+        db.session.add(adminsignup) 
         db.session.commit()
 
         return redirect(url_for("adminlogin"))
@@ -110,8 +106,10 @@ def adminlogin():
         emailaddrs = request.form["emailaddrs"]
         psskey = request.form["psskey"]
 
-        adminlogin = admnuser.query.filter_by(admin_email = emailaddrs, passkey = psskey).first()
-        if adminlogin is not None:
+        admin_login = admnuser.query.filter_by(admin_email = emailaddrs, passkey = psskey).first()
+        if admin_login:
+            session['admin_logged_in'] = True
+            session['admin_name'] = admin_login.admin_name
             return redirect(url_for("admin"))
         flash("something invalid", category="error")
     return render_template("adminlogin.html")
@@ -178,19 +176,14 @@ def page_not_found(error):
     return render_template("error_404.html"), 404  
 
 @app.route("/logout")
-@login_required
 def logout():
-    logout_user()
+    session.clear()
     flash("logged-out", category="danger")
     return redirect(url_for("home"))               
 
 @app.route("/about")
 def about():
     return render_template("about.html")
-
-@login_manager.user_loader
-def load_user(user_id):
-    return user.query.get(int(user_id))
 
 with app.app_context():
 

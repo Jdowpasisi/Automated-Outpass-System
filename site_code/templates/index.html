@@ -20,8 +20,8 @@
 
         </div>
         <footer>
-            {% if current_user.is_authenticated %}
-            <p>you logged-in as {{ current_user.username }}</p>
+            {% if session.user_logged_in %}
+            <p>you logged-in as {{ session.user_name }}</p>
             {% endif %}
 
         </footer>
