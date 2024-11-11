@@ -2,6 +2,8 @@ from flask import Flask, redirect, url_for, render_template, logging, request, f
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message  
 import sqlite3
+import hashlib
+import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -18,11 +20,21 @@ app.config['MAIL_PASSWORD'] = '2 factor authentication key not gmail password'
 app.config['MAIL_DEFAULT_SENDER'] = 'email'
 mail = Mail(app)
 
+def salt_generator():
+    return os.urandom(16)
+
+def hash_generator(password, salt):
+    return hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
+
+def verifying_engine(stored_hash, salt, password):
+    return stored_hash == hash_generator(password, salt)
+
 class user(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(40))
     email = db.Column(db.String(45))
     password = db.Column(db.String(50))
+    salt = db.Column(db.LargeBinary(16), nullable =False)
 
 class outpass(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -46,6 +58,7 @@ class admnuser(db.Model):
     admin_name = db.Column(db.String(30), unique = True, nullable = False)
     admin_email = db.Column(db.String(50), unique = True, nullable = False)
     passkey = db.Column(db.String(60), unique = True, nullable = False)
+    salt = db.Column(db.LargeBinary(16), nullable = False)
     
 @app.route("/")
 def home():
@@ -57,12 +70,16 @@ def login():
         usrname = request.form["usrname"]
         pssword = request.form["pssword"]
 
-        login_instance = user.query.filter_by(username = usrname, password = pssword).first()
+        login_instance = user.query.filter_by(username = usrname).first()
         if login_instance:
-            flash("logged-in sucsess", category = "success")
-            session['user_logged_in'] = True
-            session['user_name'] = login_instance.username
-            return redirect(url_for("home"))
+            stored_hash = login_instance.password
+            salt = login_instance.salt
+
+            if verifying_engine(stored_hash, salt, pssword):
+                flash("logged-in sucsess", category = "success")
+                session['user_logged_in'] = True
+                session['user_name'] = login_instance.username
+                return redirect(url_for("home"))
     return render_template("login.html")
 
 @app.route("/signup", methods = ["GET", "POST"])
@@ -72,7 +89,10 @@ def signup():
         emailadds = request.form["emailadds"]
         pssword = request.form["pssword"]
 
-        signup = user(username = usrname, email = emailadds, password = pssword)
+        salt = salt_generator()
+        hash_password = hash_generator(pssword, salt)
+
+        signup = user(username = usrname, email = emailadds, password = hash_password, salt = salt)
         db.session.add(signup)
         db.session.commit()
 
@@ -93,7 +113,10 @@ def adminsignup():
         emailaddrs = request.form["emailaddrs"]
         psskey = request.form["psskey"]
 
-        adminsignup = admnuser(admin_name = admname, admin_email = emailaddrs, passkey = psskey)
+        salt = salt_generator()
+        hash_password = hash_generator(psskey, salt)
+
+        adminsignup = admnuser(admin_name = admname, admin_email = emailaddrs, passkey = hash_password, salt = salt)
         db.session.add(adminsignup) 
         db.session.commit()
 
@@ -106,11 +129,15 @@ def adminlogin():
         emailaddrs = request.form["emailaddrs"]
         psskey = request.form["psskey"]
 
-        admin_login = admnuser.query.filter_by(admin_email = emailaddrs, passkey = psskey).first()
+        admin_login = admnuser.query.filter_by(admin_email = emailaddrs).first()
         if admin_login:
-            session['admin_logged_in'] = True
-            session['admin_name'] = admin_login.admin_name
-            return redirect(url_for("admin"))
+            stored_hash = admin_login.passkey
+            salt = admin_login.salt
+            
+            if verifying_engine(stored_hash, salt, psskey):
+                session['admin_logged_in'] = True
+                session['admin_name'] = admin_login.admin_name
+                return redirect(url_for("admin"))
         flash("something invalid", category="error")
     return render_template("adminlogin.html")
 
