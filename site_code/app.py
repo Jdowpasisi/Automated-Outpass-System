@@ -165,6 +165,24 @@ def form():
         return redirect(url_for("about"))
     return render_template("form.html")
 
+@app.route("/profile", methods = ['GET', 'POST'])
+def profile():
+    if 'user_name' not in session:
+        flash("login first", category="danger")
+        return redirect(url_for("login"))
+    
+    logged_user = user.query.filter_by(username = session['user_name']).first()
+    if logged_user:
+        user_detail = outpass.query.filter_by(email_add = logged_user.email).first()
+
+        if user_detail:
+            application_status = user_detail.status
+        else:
+            application_status = "not found"
+
+        return render_template("profile.html", user = logged_user, application_status = application_status)        
+    return redirect(url_for("home"))
+
 @app.route('/approve/<int:id>', methods = ['POST'])
 def approved_mail(id):
     outpass_ord = outpass.query.get(id)

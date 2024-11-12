@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - {{ user.username }}</title>
+</head>
+<body>
+    <div class = "container">
+        <h3>Here you can see your application status</h3>
+        {% if user %}
+        <p>Name - {{ user.username }}</p>
+        <p>Email - {{ user.email }}</p>
+        <p>Application status - {{ application_status }}</p>
+        {% else %}
+        <p>User not found</p>
+        {% endif %}
+
+        <a href="{{ url_for('logout') }}">Logout</a>
+
+    </div>
+</body>
+</html>
