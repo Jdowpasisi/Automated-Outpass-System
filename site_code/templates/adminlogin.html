@@ -4,24 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login for admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/adminsignup.css') }}">
+    <!-- <link rel="stylesheet" href="/site_code/static/styles/adminsignup.css"> -->
 </head>
 <body>
-    <h1>Admin Login</h1>
-
-    <div class = "container">
-        <form method="POST">
-            <label for="email">Email</label>
-            <input type="text" name = "emailaddrs" class = "form-control" id = "emailaddrs" required>
-
-            <label for="email">Password</label>
-            <input type="password" name = "psskey" class = "form-control" id = "psskey" required>
-
-            <button type = "submit" class = "btn form-control btn-default">Login</button>
-        </form>
-
-    </div>
+    <body>
+   
+        <div class = "container">
+            <h1>Admin Login</h1>
     
-</body>
+            <form method="POST">
+                <label for="email">Email</label>
+                <input type="text" name = "emailaddrs" class = "form-control" id = "emailaddrs">
     
-</body>
+                <label for="email">Password</label>
+                <input type="password" name = "psskey" class = "form-control" id = "psskey">
+    
+                <button type = "submit" class = "btn form-control btn-default">Login</button>
+            </form>
+    
+        </div>
+        
+    </body>
+        
+    </body>
 </html>
