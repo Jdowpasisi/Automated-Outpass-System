@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign up for Admins</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/adminsignup.css') }}">
+    <!-- <link rel="stylesheet" href="/site_code/static/styles/adminsignup.css"> -->
 </head>
 <body>
     <div class = "container">
+        <h1>New Admin</h1>
         <form method = "POST">
             <label for="email">Name</label>
             <input type="text" name = "admname" class = "form-control" id = "admname" required>
