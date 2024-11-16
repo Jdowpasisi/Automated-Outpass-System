@@ -3,11 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Outpass</title>
-    <h1>Outpass Submittion</h1>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/form.css') }}"> 
+    <!-- <link rel="stylesheet" href="/site_code/static/styles/form.css"> -->
 </head>
 <body>
+    <nav>
+        <div class="icon">
+            <a href="/"><img src="{{ url_for('static', filename='images/emblem.png') }}" alt="Home" class="logo"></a>
+        </div>
+        <h1>HOME</h1>
+        <div class="nav-items">
+            <a href="/profile"><img src="{{ url_for('static', filename='images/whiteprofile1.png') }}" alt="Profile" class="profile-icon"></a>
+        </div> 
+    </nav>
+</nav>
     <div class = "container">
+        <h1>Outpass</h1>
         <form method="POST">
             <label for="email">Your name</label>
             <input type="text" name = "uname" class = "form-control" id = "uname" required>
@@ -29,7 +42,7 @@
             <br>
             <br>
 
-            <label for="email">Hostel number</label>
+            <label for="email">Room number</label>
             <input type="text" name = "hnum" class = "form-control" id = "hnum" required>
             <br>
             <br>
@@ -56,7 +69,7 @@
             <br>
             <br>
 
-            <label for="email">Time of cumming</label>
+            <label for="email">Time of coming</label>
             <input type="time" name = "ctime" class = "form-control" id = "ctime" max = "19:30" required>
             <br>
             <br>
@@ -67,7 +80,7 @@
             <br>
 
             <label for="email">Program</label>
-            <input type="text" name="prgm" id="prgm" required>
+            <input type="text" name="prgm" id="prgm" class = "form-control" required>
             <br>
             <br>
 
