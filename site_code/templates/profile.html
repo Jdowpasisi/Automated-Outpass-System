@@ -4,20 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - {{ user.username }}</title>
+    <!-- <link rel="stylesheet" href="/site_code/static/styles/profile.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/profile.css') }}">
 </head>
 <body>
+    <nav>
+        <div class="icon">
+            <a href="/"><img src="{{ url_for('static', filename='images/emblem.png') }}" alt="Home" class="logo"></a>
+        </div>
+        <h1>ABOUT</h1>
+        <div class="nav-items">
+            <a href="/profile"><img src="{{ url_for('static', filename='images/whiteprofile1.png') }}" alt="Profile" class="profile-icon"></a>
+        </div> 
+    </nav>
     <div class = "container">
-        <h3>Here you can see your application status</h3>
+        <h1>USER INFORMATION</h1>
         {% if user %}
         <p>Name - {{ user.username }}</p>
         <p>Email - {{ user.email }}</p>
-        <p>Application status - {{ application_status }}</p>
+        <h3>APPLICATION STATUS:</h3>
+        <p>{{ application_status }}</p>
         {% else %}
         <p>User not found</p>
         {% endif %}
-
-        <a href="{{ url_for('logout') }}">Logout</a>
-
+        
+        <ul><a href="{{ url_for('logout') }}" class = "btn form-control btn-success">Logout</a></ul>
     </div>
+
+    <footer></footer>
 </body>
 </html>
