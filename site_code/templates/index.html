@@ -5,23 +5,31 @@
     <meta name="viewport" content="width=
     , initial-scale=1.0">
     <title>title of the site</title>
-    <h1>Home page</h1>
+    <!-- <link rel="stylesheet" href="/site_code/static/styles/index.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
 </head>
 <body>
-    <div>
-        <ul>
-             <a href = /login class = "btn form-control btn-success">Login</a>
-             <a href="/signup" class = "btn form-control btn-success">Sign-up</a>
-             <a href="/form" class = "btn form-control btn-success">Outpass</a>
-             <a href="/about" class = "btn form-control btn-success">About</a>
-             <a href="{{ url_for('logout') }}">Logout</a>
-
-            </ul>
-
-        </div>
+  <nav>
+    <div class="icon">
+        <a href="#"><img src="{{ url_for('static', filename='images/emblem.png') }}" alt="Home" class="logo"></a>
+    </div>
+    <h1>HOME</h1>
+    <div class="nav-items">
+        <a href="/profile"><img src="{{ url_for('static', filename='images/whiteprofile1.png') }}" alt="Profile" class="profile-icon"></a>
+    </div> 
+</nav>
+      <div class="content">
+          <ul>
+            <a href = "/login" class = "btn form-control btn-success">Login</a>
+            <a href="/signup" class = "btn form-control btn-success">Sign-up</a>
+            <a href="/form" class = "btn form-control btn-success">Outpass</a>
+            <a href = "/about" class = "btn form-control btn-success">About</a>
+        </ul>
+        
+    </div>
         <footer>
             {% if session.user_logged_in %}
-            <p>You <b>logged-in</b> as {{ session.user_name }}</p>
+            <p>You are <b>logged-in</b> as {{ session.user_name }}</p>
             {% endif %}
 
         </footer>
