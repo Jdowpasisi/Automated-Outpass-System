@@ -4,8 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/adminpanel.css') }}">
+    <!-- <link rel="stylesheet" href="/site_code/static/styles/adminpanel.css"> -->
 </head>
 <body>
+    <nav>
+        <div class="icon">
+            <a href="/"><img src="{{ url_for('static', filename='images/emblem.png') }}" alt="Home" class="logo"></a>
+        </div>
+        <h1>ADMIN PANEL</h1>
+    </nav>
     <h2>Application by students</h2>
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -33,6 +41,7 @@
                 <th>Parent number</th>
                 <th>Program</th>
                 <th>Reason</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -73,6 +82,7 @@
         </tbody>
 
     </table>
-    
+
+    <footer></footer>    
 </body>
 </html>
