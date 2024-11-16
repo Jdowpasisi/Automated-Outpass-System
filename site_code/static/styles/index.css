@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body, h1, h2, h3, p, ul {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    background-color: #FFF;
+    color: #fff;
+}
+
+nav {
+    height: 100px;
+    background: rgb(2, 26, 54);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+h1:hover{
+    color: #a08c57;
+    
+}
+.nav-items {
+    height: 100px;
+    display: flex;
+}
+
+nav a {
+    text-decoration: none;
+    color: rgb(2, 26, 54);
+    padding: 0 10px;
+    line-height: 100px;
+}
+
+.icon {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.icon img {
+    height: 95px;
+    position: absolute;
+    top: 2.5px;
+    left: 0px;
+    transition: transform 0.3s ease;
+}
+nav .icon img:hover {
+    transition: background-color 0.1s ease;
+    background-color: #a08c57;
+    transform: scale(1.05);
+}
+.nav-items img{
+    height: 90px;
+    position: absolute;
+    top: 2.5px;
+    right: 0px;
+    transition: transform 0.3s ease;
+}
+.nav-items img:hover {
+    color: rgb(2, 26, 54);
+    background-color: #a08c57;
+    transition: background-color 0.1s ease;
+    transform: scale(1.15);
+}
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.btn {
+    display: inline-block;
+    margin: 10px;
+    width: 150px;
+    border-radius: 100px;
+    padding: 10px 15px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    background: rgba(2, 26, 54);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn:hover {
+    background-color: #a08c57; 
+    color: rgb(2, 26, 54);
+    transform: scale(1.05);
+}
+
+footer {
+    height: 120px;
+    background: rgb(2, 26, 54);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+@media (max-width: 600px) {
+    .nav-items {
+        flex-direction: column;
+    }
+    
+    .nav-items a {
+        padding: 10px;
+        text-align: center;
+    }
+
+    .content {
+        padding: 10px;
+    }
+}

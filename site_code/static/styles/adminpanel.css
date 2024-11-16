@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body, h1, h2, h3, p, ul {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    background-color: rgb(2, 26, 54,  0.75);
+    color: #fff;
+}
+
+nav {
+    color: #fff;
+    height: 100px;
+    background: rgb(2, 26, 54);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+h1{
+    text-align: center;
+}
+h1:hover{
+    color: #a08c57;
+    
+}
+.nav-items {
+    height: 100px;
+    display: flex;
+}
+
+nav a {
+    text-decoration: none;
+    color: rgb(2, 26, 54);
+    padding: 0 10px;
+    line-height: 100px;
+}
+
+.icon {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.icon img {
+    height: 95px;
+    position: absolute;
+    top: 2.5px;
+    left: 0px;
+    transition: transform 0.3s ease;
+}
+nav .icon img:hover {
+    transition: background-color 0.1s ease;
+    background-color: #a08c57;
+    transform: scale(1.05);
+}
+table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+}
+td {
+    border: 1px solid rgb(2, 26, 54);
+    word-wrap: break-word;
+}
+thead th {
+    background-color: rgb(2, 26, 54);
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+}
+
+tbody{
+    color: rgb(2, 26, 54);
+    background-color: #ffffff8a;
+}
+tbody tr:nth-child(even) {
+    background-color: rgb(2, 26, 54);
+    color: #fff;
+}
+
+
+button {
+    padding: 8px 12px;
+    border: none;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    margin: 5px 0;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"] {
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    opacity: 0.9;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+form[action*="approved_mail"] button {
+    background-color: #28a745;}
+
+form[action*="rejected_mail"] button {
+    background-color: #dc3545; }
+
+footer {
+    height: 150px;
+    background: rgb(2, 26, 54);
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    table, th, td {
+        font-size: 0.9em;
+    }
+
+    tbody td:last-child {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
