@@ -4,16 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About this nonsense</title>
-    <h2>Successfully submitted your details? </h2>
-    <p>If not? follow the link below</p>
-    <a href="/form" class = "btn form-control btn-success">Outpass</a>
-    <br>
-    <br>
+    <!-- <link rel="stylesheet" href="/site_code/static/styles/about.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/about.css') }}">
+    
     
 </head>
 <body>
+    <nav>
+    <div class="icon">
+        <a href="/"><img src="{{ url_for('static', filename='images/emblem.png') }}" alt="Home" class="logo"></a>
+    </div>
+    <h1>ABOUT</h1>
+    <div class="nav-items">
+        <a href="/profile"><img src="{{ url_for('static', filename='images/whiteprofile1.png') }}" alt="Profile" class="profile-icon"></a>
+    </div> 
+</nav>
+<div class="container">
+    <h2>Successfully submitted your details? </h2>
+    <p>If not? follow the link below</p>
+        <a href="/form" class = "btn form-control btn-success">Outpass</a>
+        <br>
+        <br>
     this is the about page update accordingly by accessing the code from github
 
+    </div>
     
 </body>
 </html>
